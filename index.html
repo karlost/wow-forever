@@ -418,29 +418,6 @@
     text-shadow: 0 0 18px rgba(255, 90, 20, .6), 0 2px 0 #2a0806;
   }
 
-  .music {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: clamp(14px, 2.6vh, 26px);
-    padding: 10px 20px 10px 14px;
-    border: 1px solid #b8862f;
-    border-radius: 3px;
-    background: linear-gradient(180deg, #4a1a10, #2a0b08);
-    box-shadow: inset 0 1px 0 rgba(255, 210, 140, .25), 0 0 0 3px rgba(20, 6, 4, .7), 0 6px 18px rgba(0, 0, 0, .5);
-    color: #ffe3a8;
-    font: inherit;
-    font-size: clamp(15px, 1.6vw, 18px);
-    cursor: pointer;
-    transition: background .2s, border-color .2s;
-  }
-  .music:hover { background: linear-gradient(180deg, #6b2414, #3a0f0a); border-color: #f4b942; }
-  .music:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
-  .music svg { width: 20px; height: 20px; fill: var(--ember); }
-  .music .on { display: none; }
-  .music[aria-pressed="true"] .on { display: block; }
-  .music[aria-pressed="true"] .off { display: none; }
-
   .radio {
     position: fixed;
     right: 16px;
@@ -455,21 +432,6 @@
   }
   .radio.parked { visibility: hidden; pointer-events: none; }
   .radio iframe, .radio #yt { display: block; width: 100%; height: 100%; border: 0; }
-  .radio-close {
-    position: absolute;
-    top: -14px;
-    right: -10px;
-    width: 30px;
-    height: 30px;
-    border: 1px solid #b8862f;
-    border-radius: 50%;
-    background: #2a0b08;
-    color: #ffe3a8;
-    font: 20px/1 "Marcellus", serif;
-    cursor: pointer;
-  }
-  .radio-close:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-
   /* ---------- Horde flag on the banners ---------- */
 
   .has-flag .crest { display: none; }
@@ -646,7 +608,7 @@
 
   .og-date b { width: auto; }
   .og-date { font-size: clamp(46px, min(12vw, 17vh), 150px); }
-  .og .music, .og .quest { display: none; }
+  .og .quest { display: none; }
 
   body.launched .lead,
   body.launched .countdown,
@@ -819,11 +781,6 @@
     <p class="when">Servery World of Warcraft: Forever se probudí o&nbsp;půlnoci ze středy na čtvrtek.</p>
     <p class="muster">Družina vyráží ve čtvrtek v&nbsp;8:00 ráno</p>
     <p class="cry">Lok'tar ogar!</p>
-    <button class="music" id="music" type="button" aria-pressed="false">
-      <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-      <svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
-      <span>Pustit hudbu</span>
-    </button>
   </section>
  </div>
 
@@ -835,8 +792,8 @@
     <ul class="objectives">
       <li><button type="button" aria-pressed="false"><span class="txt">Předplatné zaplacené, hra stažená a aktualizovaná</span><span class="cnt">0/1</span></button></li>
       <li><button type="button" aria-pressed="false"><span class="txt">Jméno postavy zamluvené dřív, než ho sebere Aliance</span><span class="cnt">0/1</span></button></li>
-      <li><button type="button" aria-pressed="false"><span class="txt">Čtvrtek volný (omluvenka: horečka z Barrens)</span><span class="cnt">0/1</span></button></li>
-      <li><button type="button" aria-pressed="false"><span class="txt">Zásoby na celý den: plná lednice a vychlazené energiťáky</span><span class="cnt">0/1</span></button></li>
+      <li><button type="button" aria-pressed="false"><span class="txt">Volno od čtvrtka do neděle (omluvenka: horečka z Barrens)</span><span class="cnt">0/1</span></button></li>
+      <li><button type="button" aria-pressed="false"><span class="txt">Zásoby až do neděle: plná lednice a vychlazené energiťáky</span><span class="cnt">0/1</span></button></li>
       <li><button type="button" aria-pressed="false"><span class="txt">Budík na 7:30. Kdo zaspí, nese náčelníkovi zavazadla</span><span class="cnt">0/1</span></button></li>
     </ul>
     <p class="quest-done" id="quest-done" hidden>Úkol splněn. Ve čtvrtek v 8:00 se hlas u náčelníka Chodce.</p>
@@ -847,7 +804,6 @@
 
 <div class="radio parked" id="radio">
   <div id="yt"></div>
-  <button class="radio-close" id="radio-close" type="button" aria-label="Zavřít přehrávač">×</button>
 </div>
 
 <script>
@@ -1047,11 +1003,15 @@
     const probe = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
     probe.canvas.width = probe.canvas.height = 1;
     probe.drawImage(flag, 8, 8, 1, 1, 0, 0, 1, 1);
-    const [r, g, b] = probe.getImageData(0, 0, 1, 1).data;
+    let red = 'rgb(155 37 35)';
+    try {
+      const [r, g, b] = probe.getImageData(0, 0, 1, 1).data;
+      red = `rgb(${r} ${g} ${b})`;
+    } catch {}
     const root = document.documentElement.style;
     root.setProperty('--flag-url', `url("${flag.src}")`);
     root.setProperty('--flag-ratio', (flag.naturalWidth / flag.naturalHeight).toFixed(4));
-    root.setProperty('--flag-red', `rgb(${r} ${g} ${b})`);
+    root.setProperty('--flag-red', red);
     root.setProperty('--rows', FLAG_ROWS);
     document.querySelectorAll('.cloth').forEach(cloth => {
       cloth.innerHTML = Array.from({ length: FLAG_ROWS }, (_, i) => `<i class="flag-row" style="--i:${i}"></i>`).join('');
@@ -1080,19 +1040,12 @@
   renderQuest();
 
   // ---------- music: official Warpath trailer via YouTube embed ----------
-  // Browsers block sound until the visitor interacts, so the music starts on the first click or key press anywhere.
+  // Browsers only allow sound after the visitor interacts with the page. The music tries to start
+  // right away, and when the browser blocks that, it starts on the first click, tap or key press.
   const VIDEO = 'NPbTAXZL_2A';
-  const musicBtn = document.getElementById('music');
   const radio = document.getElementById('radio');
+  const UNLOCK_EVENTS = ['click', 'keydown', 'touchend'];
   let player = null;
-  let playerReady = false;
-  let wantPlay = false;
-  let userStopped = false;
-
-  const setPlaying = (on) => {
-    musicBtn.setAttribute('aria-pressed', String(on));
-    musicBtn.querySelector('span').textContent = on ? 'Zastavit hudbu' : 'Pustit hudbu';
-  };
 
   const loadYouTube = () => new Promise(resolve => {
     if (window.YT && window.YT.Player) return resolve();
@@ -1102,69 +1055,26 @@
     document.head.append(s);
   });
 
-  const startMusic = () => {
-    radio.classList.remove('parked');
-    setPlaying(true);
-    if (playerReady) player.playVideo();
-    else wantPlay = true;
-    // If the browser still refuses to play, show the button as stopped again.
-    setTimeout(() => {
-      if (!playerReady) return;
-      const state = player.getPlayerState();
-      if (state !== YT.PlayerState.PLAYING && state !== YT.PlayerState.BUFFERING) setPlaying(false);
-    }, 3000);
-  };
-
-  const stopMusic = () => {
-    wantPlay = false;
-    if (playerReady) player.pauseVideo();
-    setPlaying(false);
-  };
+  const unlock = () => player?.playVideo();
 
   if (!new URLSearchParams(location.search).has('og')) {
+    UNLOCK_EVENTS.forEach(type => document.addEventListener(type, unlock, true));
     loadYouTube().then(() => {
       player = new YT.Player('yt', {
         host: 'https://www.youtube-nocookie.com',
         videoId: VIDEO,
-        playerVars: { loop: 1, playlist: VIDEO, rel: 0, playsinline: 1 },
+        playerVars: { autoplay: 1, loop: 1, playlist: VIDEO, rel: 0, playsinline: 1 },
         events: {
-          onReady: () => {
-            playerReady = true;
-            if (wantPlay) player.playVideo();
-          },
+          onReady: () => player.playVideo(),
           onStateChange: e => {
-            if (e.data === YT.PlayerState.PLAYING) setPlaying(true);
-            if (e.data === YT.PlayerState.PAUSED) setPlaying(false);
+            if (e.data !== YT.PlayerState.PLAYING) return;
+            radio.classList.remove('parked');
+            UNLOCK_EVENTS.forEach(type => document.removeEventListener(type, unlock, true));
           },
         },
       });
     });
-
-    const firstGesture = (e) => {
-      document.removeEventListener('click', firstGesture, true);
-      document.removeEventListener('keydown', firstGesture, true);
-      if (userStopped || e.target.closest?.('#music, #radio')) return;
-      startMusic();
-    };
-    document.addEventListener('click', firstGesture, true);
-    document.addEventListener('keydown', firstGesture, true);
   }
-
-  musicBtn.addEventListener('click', () => {
-    if (musicBtn.getAttribute('aria-pressed') === 'true') {
-      userStopped = true;
-      stopMusic();
-    } else {
-      startMusic();
-    }
-  });
-
-  document.getElementById('radio-close').addEventListener('click', () => {
-    userStopped = true;
-    stopMusic();
-    radio.classList.add('parked');
-    musicBtn.focus();
-  });
 
   const og = new URLSearchParams(location.search).has('og');
   if (og) {
