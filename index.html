@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>WoW Forever – odpočet</title>
-<meta name="description" content="Odpočet do startu World of Warcraft: Forever – čtvrtek 5. listopadu 2026 o půlnoci.">
+<meta name="description" content="Odpočet do startu World of Warcraft: Forever. Brány se otevřou o půlnoci na čtvrtek 5. listopadu 2026, družina vyráží v 8:00 ráno.">
 <meta name="theme-color" content="#2a0a0c">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Družino, nabruste sekery!">
-<meta property="og:description" content="World of Warcraft: Forever startuje 5. 11. 2026 úderem půlnoci. Družina: Chodec, Katsuga, Sparticka, Markus, Kudry.">
+<meta property="og:description" content="Brány Azerothu se otevřou o půlnoci na čtvrtek 5. 11. 2026. Družina vyráží v 8:00 ráno. Chodec, Katsuga, Sparticka, Markus, Kudry.">
 <meta property="og:image" content="https://digihood.github.io/wow-forever/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -395,6 +395,20 @@
     text-shadow: 0 1px 0 #2a0806, 0 0 14px rgba(0, 0, 0, .8);
   }
 
+  .muster {
+    display: inline-block;
+    margin: clamp(10px, 1.8vh, 16px) 0 0;
+    padding: 8px 18px;
+    border-top: 1px solid rgba(244, 185, 66, .55);
+    border-bottom: 1px solid rgba(244, 185, 66, .55);
+    background: linear-gradient(90deg, transparent, rgba(30, 8, 5, .7) 15%, rgba(30, 8, 5, .7) 85%, transparent);
+    font-family: "Cinzel Decorative", "Cinzel", serif;
+    font-weight: 700;
+    font-size: clamp(17px, 2.1vw, 24px);
+    color: #ffe3a8;
+    text-shadow: 0 0 14px rgba(255, 140, 40, .45), 0 2px 0 #2a0806;
+  }
+
   .cry {
     margin: .4em 0 0;
     font-family: "Cinzel Decorative", "Cinzel", serif;
@@ -455,6 +469,66 @@
     cursor: pointer;
   }
   .radio-close:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* ---------- Horde flag on the banners ---------- */
+
+  .has-flag .crest { display: none; }
+  .has-flag .cloth {
+    container-type: size;
+    background: var(--flag-red);
+    clip-path: polygon(-12% 0, 112% 0, 112% 95%, 84% 92%, 68% 98%, 50% 93%, 33% 100%, 17% 94%, -12% 97%);
+  }
+  .flag-row {
+    --iw: min(100cqw, 90cqh * var(--flag-ratio));
+    --ih: calc(var(--iw) / var(--flag-ratio));
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--i) * 100cqh / var(--rows));
+    height: calc(100cqh / var(--rows) + 1px);
+    background-color: var(--flag-red);
+    background-image: var(--flag-url);
+    background-repeat: no-repeat;
+    background-size: var(--iw) var(--ih);
+    background-position:
+      calc((100cqw - var(--iw)) / 2)
+      calc((100cqh - var(--ih)) / 2 - var(--i) * 100cqh / var(--rows));
+    animation: ripple 2.6s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -.11s);
+  }
+  @keyframes ripple {
+    0%, 100% { transform: translateX(calc(var(--i) / var(--rows) * -5px)); }
+    50% { transform: translateX(calc(var(--i) / var(--rows) * 5px)); }
+  }
+  .has-flag .cloth::after {
+    z-index: 1;
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, .5) 0 8px, rgba(255, 210, 150, .14) 8px 10px, transparent 10px),
+      linear-gradient(90deg, rgba(0, 0, 0, .35), transparent 18%, transparent 82%, rgba(0, 0, 0, .4)),
+      linear-gradient(90deg, rgba(0, 0, 0, .24), rgba(255, 225, 190, .13) 25%, rgba(0, 0, 0, .18) 50%, rgba(255, 225, 190, .1) 75%, rgba(0, 0, 0, .24));
+    background-size: auto, auto, 160cqw 100%;
+    background-repeat: no-repeat, no-repeat, repeat-x;
+    animation: folds 4.5s linear infinite;
+  }
+  @keyframes folds { to { background-position: 0 0, 0 0, 160cqw 0; } }
+  .has-flag .name {
+    top: 7%;
+    z-index: 2;
+    font-size: clamp(11px, 1.6vw, 17px);
+  }
+
+  @media (max-width: 560px) {
+    .has-flag .banners { padding-bottom: 20px; }
+    .has-flag .name {
+      top: calc(100% + 2px);
+      writing-mode: horizontal-tb;
+      font-family: "Marcellus", Georgia, serif;
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+  }
 
   /* ---------- screenshots ---------- */
 
@@ -575,14 +649,15 @@
   .og .music, .og .quest { display: none; }
 
   body.launched .lead,
-  body.launched .countdown { display: none; }
+  body.launched .countdown,
+  body.launched .muster { display: none; }
 
   @media (orientation: portrait) {
     .sun { left: 50%; top: 63%; width: 80vmin; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .scene *, .banner { animation: none !important; transition: none !important; }
+    .scene *, .banner, .banner *, .cloth::after { animation: none !important; transition: none !important; }
     .num b.flare { animation: none; }
     .slide { opacity: 1; }
   }
@@ -731,7 +806,7 @@
 
   <section class="call">
     <h1 id="headline">Družino, nabruste sekery!</h1>
-    <p class="lead">Brány Azerothu se otevřou za</p>
+    <p class="lead" id="lead">Brány Azerothu se otevřou za</p>
     <div class="countdown" id="countdown" role="timer">
       <div class="unit"><div class="num" data-unit="d"><b>0</b><b>0</b></div><div class="lbl">dní</div></div>
       <div class="sep" aria-hidden="true"><i></i><i></i></div>
@@ -741,7 +816,8 @@
       <div class="sep" aria-hidden="true"><i></i><i></i></div>
       <div class="unit"><div class="num" data-unit="s"><b>0</b><b>0</b></div><div class="lbl">sekund</div></div>
     </div>
-    <p class="when">World of Warcraft: Forever startuje ve čtvrtek 5.&nbsp;listopadu 2026 úderem půlnoci.</p>
+    <p class="when">Servery World of Warcraft: Forever se probudí o&nbsp;půlnoci ze středy na čtvrtek.</p>
+    <p class="muster">Družina vyráží ve čtvrtek v&nbsp;8:00 ráno</p>
     <p class="cry">Lok'tar ogar!</p>
     <button class="music" id="music" type="button" aria-pressed="false">
       <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
@@ -752,19 +828,20 @@
  </div>
 
   <article class="quest" aria-labelledby="quest-title">
-    <h2 id="quest-title">Válečná noc</h2>
-    <p class="quest-text">Družino! O půlnoci se otevřou brány Azerothu a Horda na opozdilce čekat nebude. Než zazní válečný roh, splňte rozkazy svého náčelníka. Kdo dorazí pozdě, hlídá celou noc kodo.</p>
+    <h2 id="quest-title">Na válečnou stezku</h2>
+    <p class="quest-text">Družino! O půlnoci se otevřou brány Azerothu, ale praví válečníci nejdřív naberou síly. Ve čtvrtek v osm ráno se šikujeme a vyrážíme jako jedna Horda. Než zazní válečný roh, splň rozkazy náčelníka Chodce. Kdo přijde pozdě, celý den hlídá kodo.</p>
     <h3>Cíle úkolu</h3>
     <p class="hint">Splněný cíl si odklikni.</p>
     <ul class="objectives">
-      <li><button type="button" aria-pressed="false"><span class="txt">Předplatné zaplacené, klient stažený</span><span class="cnt">0/1</span></button></li>
+      <li><button type="button" aria-pressed="false"><span class="txt">Předplatné zaplacené, hra stažená a aktualizovaná</span><span class="cnt">0/1</span></button></li>
       <li><button type="button" aria-pressed="false"><span class="txt">Jméno postavy zamluvené dřív, než ho sebere Aliance</span><span class="cnt">0/1</span></button></li>
-      <li><button type="button" aria-pressed="false"><span class="txt">Zásoby na noc: plná lednice a vychlazené energiťáky</span><span class="cnt">0/1</span></button></li>
-      <li><button type="button" aria-pressed="false"><span class="txt">Volno na ráno vyjednané (omluvenka: horečka z Barrens)</span><span class="cnt">0/1</span></button></li>
+      <li><button type="button" aria-pressed="false"><span class="txt">Čtvrtek volný (omluvenka: horečka z Barrens)</span><span class="cnt">0/1</span></button></li>
+      <li><button type="button" aria-pressed="false"><span class="txt">Zásoby na celý den: plná lednice a vychlazené energiťáky</span><span class="cnt">0/1</span></button></li>
+      <li><button type="button" aria-pressed="false"><span class="txt">Budík na 7:30. Kdo zaspí, nese náčelníkovi zavazadla</span><span class="cnt">0/1</span></button></li>
     </ul>
-    <p class="quest-done" id="quest-done" hidden>Úkol splněn. O půlnoci se hlas u náčelníka.</p>
+    <p class="quest-done" id="quest-done" hidden>Úkol splněn. Ve čtvrtek v 8:00 se hlas u náčelníka Chodce.</p>
     <h3>Odměna</h3>
-    <p class="reward">Místo v družině a věčná sláva v Azerothu.</p>
+    <p class="reward">Místo v družině, věčná sláva a první korbel grogu na účet Aliance.</p>
   </article>
 </main>
 
@@ -963,6 +1040,26 @@
     lbl.textContent = plural(value, ...forms[key]);
   };
 
+  // ---------- Horde flag on the banners, rippled row by row ----------
+  const FLAG_ROWS = 32;
+  const flag = new Image();
+  flag.onload = () => {
+    const probe = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+    probe.canvas.width = probe.canvas.height = 1;
+    probe.drawImage(flag, 8, 8, 1, 1, 0, 0, 1, 1);
+    const [r, g, b] = probe.getImageData(0, 0, 1, 1).data;
+    const root = document.documentElement.style;
+    root.setProperty('--flag-url', `url("${flag.src}")`);
+    root.setProperty('--flag-ratio', (flag.naturalWidth / flag.naturalHeight).toFixed(4));
+    root.setProperty('--flag-red', `rgb(${r} ${g} ${b})`);
+    root.setProperty('--rows', FLAG_ROWS);
+    document.querySelectorAll('.cloth').forEach(cloth => {
+      cloth.innerHTML = Array.from({ length: FLAG_ROWS }, (_, i) => `<i class="flag-row" style="--i:${i}"></i>`).join('');
+    });
+    document.body.classList.add('has-flag');
+  };
+  flag.src = 'horde.jpg';
+
   // ---------- quest objectives (stored per viewer) ----------
   const QUEST_KEY = 'wow-forever-quest';
   const objectives = [...document.querySelectorAll('.objectives button')];
@@ -1113,25 +1210,40 @@
   showShot();
   if (!reduceMotion) setInterval(showShot, 11000);
 
+  // 5. 11. 2026 8:00 SEČ – the warband sets out
+  const MUSTER = Date.UTC(2026, 10, 5, 7, 0, 0);
+  const PHASES = [
+    { until: TARGET, headline: 'Družino, nabruste sekery!', lead: 'Brány Azerothu se otevřou za', title: 'WoW Forever' },
+    { until: MUSTER, headline: 'Brány jsou otevřené!', lead: 'Družina vyráží za', title: 'sraz družiny' },
+  ];
+  const headline = document.getElementById('headline');
+  const lead = document.getElementById('lead');
+
   let timer;
   const tick = () => {
     clearTimeout(timer);
-    const ms = TARGET - (Date.now() + skew);
-    const total = Math.max(0, Math.ceil(ms / 1000));
+    const now = Date.now() + skew;
+    const phase = PHASES.find(p => now < p.until);
+    if (!phase) {
+      document.body.classList.add('launched');
+      headline.textContent = 'Družina je v Azerothu. Lok\u2019tar ogar!';
+      document.title = 'Družina je v Azerothu!';
+      return;
+    }
+    if (headline.textContent !== phase.headline) {
+      headline.textContent = phase.headline;
+      lead.textContent = phase.lead;
+    }
+    const ms = phase.until - now;
+    const total = Math.ceil(ms / 1000);
     const d = Math.floor(total / 86400);
     const h = Math.floor(total % 86400 / 3600);
     const m = Math.floor(total % 3600 / 60);
     const s = total % 60;
     setUnit('d', d); setUnit('h', h); setUnit('m', m); setUnit('s', s);
 
-    if (total === 0) {
-      document.body.classList.add('launched');
-      document.getElementById('headline').textContent = 'Brány jsou otevřené. Do sedel, družino!';
-      document.title = 'WoW Forever běží!';
-      return;
-    }
     const pad = n => String(n).padStart(2, '0');
-    document.title = `${d} d ${pad(h)}:${pad(m)}:${pad(s)} – WoW Forever`;
+    document.title = `${d} d ${pad(h)}:${pad(m)}:${pad(s)} – ${phase.title}`;
     timer = setTimeout(tick, (ms % 1000 || 1000) + 8);
   };
   tick();
