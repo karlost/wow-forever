@@ -452,7 +452,16 @@
   .sound-volume { width: clamp(90px, 14vw, 150px); accent-color: var(--ember); cursor: pointer; }
   .sound-toggle:focus-visible,
   .sound-volume:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
-  .og .sound { display: none; }
+  .credit {
+    margin: 8px 0 0;
+    text-align: center;
+    font-size: 13px;
+    color: #d9b98a;
+    text-shadow: 0 1px 0 #2a0806;
+  }
+  .credit a { color: inherit; text-underline-offset: 3px; }
+  .credit[hidden] { display: none; }
+  .og .sound, .og .credit { display: none; }
 
   /* ---------- Horde flag on the banners ---------- */
 
@@ -822,6 +831,7 @@
       <svg class="sound-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       <input class="sound-volume" id="sound-volume" type="range" min="0" max="100" value="70" aria-label="Hlasitost">
     </div>
+    <p class="credit" id="credit" hidden>Hudba: <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100849" target="_blank" rel="noopener">Five Armies</a>, Kevin MacLeod, licence <a href="https://creativecommons.org/licenses/by/4.0/deed.cs" target="_blank" rel="noopener">CC BY 4.0</a></p>
   </header>
 
   <section class="call">
@@ -860,7 +870,10 @@
   </article>
 </main>
 
-<audio id="music" src="music.mp3" loop preload="auto"></audio>
+<audio id="music" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+  <source src="five-armies.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 (() => {
@@ -1126,7 +1139,13 @@
   music.addEventListener('playing', () => {
     UNLOCK_EVENTS.forEach(type => document.removeEventListener(type, unlock, true));
   });
-  music.addEventListener('error', () => { document.querySelector('.sound').hidden = true; });
+  // Every source failing means there is no music at all.
+  music.querySelector('source:last-of-type').addEventListener('error', () => {
+    document.querySelector('.sound').hidden = true;
+  });
+  music.addEventListener('loadedmetadata', () => {
+    document.getElementById('credit').hidden = !music.currentSrc.endsWith('five-armies.mp3');
+  });
 
 
   toggle.addEventListener('click', () => {
