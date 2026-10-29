@@ -439,7 +439,7 @@
     background: #1a0806;
     box-shadow: 0 0 0 3px rgba(20, 6, 4, .8), 0 12px 30px rgba(0, 0, 0, .7);
   }
-  .radio[hidden] { display: none; }
+  .radio.parked { visibility: hidden; pointer-events: none; }
   .radio iframe, .radio #yt { display: block; width: 100%; height: 100%; border: 0; }
   .radio-close {
     position: absolute;
@@ -768,7 +768,7 @@
   </article>
 </main>
 
-<div class="radio" id="radio" hidden>
+<div class="radio parked" id="radio">
   <div id="yt"></div>
   <button class="radio-close" id="radio-close" type="button" aria-label="Zavřít přehrávač">×</button>
 </div>
@@ -983,10 +983,14 @@
   renderQuest();
 
   // ---------- music: official Warpath trailer via YouTube embed ----------
+  // Browsers block sound until the visitor interacts, so the music starts on the first click or key press anywhere.
   const VIDEO = 'NPbTAXZL_2A';
   const musicBtn = document.getElementById('music');
   const radio = document.getElementById('radio');
   let player = null;
+  let playerReady = false;
+  let wantPlay = false;
+  let userStopped = false;
 
   const setPlaying = (on) => {
     musicBtn.setAttribute('aria-pressed', String(on));
@@ -1001,34 +1005,67 @@
     document.head.append(s);
   });
 
-  musicBtn.addEventListener('click', async () => {
-    if (musicBtn.getAttribute('aria-pressed') === 'true') {
-      player?.pauseVideo();
-      setPlaying(false);
-      return;
-    }
-    radio.hidden = false;
+  const startMusic = () => {
+    radio.classList.remove('parked');
     setPlaying(true);
-    if (player) { player.playVideo(); return; }
-    await loadYouTube();
-    player = new YT.Player('yt', {
-      host: 'https://www.youtube-nocookie.com',
-      videoId: VIDEO,
-      playerVars: { autoplay: 1, loop: 1, playlist: VIDEO, rel: 0, playsinline: 1 },
-      events: {
-        onReady: e => e.target.playVideo(),
-        onStateChange: e => {
-          if (e.data === YT.PlayerState.PLAYING) setPlaying(true);
-          if (e.data === YT.PlayerState.PAUSED) setPlaying(false);
+    if (playerReady) player.playVideo();
+    else wantPlay = true;
+    // If the browser still refuses to play, show the button as stopped again.
+    setTimeout(() => {
+      if (!playerReady) return;
+      const state = player.getPlayerState();
+      if (state !== YT.PlayerState.PLAYING && state !== YT.PlayerState.BUFFERING) setPlaying(false);
+    }, 3000);
+  };
+
+  const stopMusic = () => {
+    wantPlay = false;
+    if (playerReady) player.pauseVideo();
+    setPlaying(false);
+  };
+
+  if (!new URLSearchParams(location.search).has('og')) {
+    loadYouTube().then(() => {
+      player = new YT.Player('yt', {
+        host: 'https://www.youtube-nocookie.com',
+        videoId: VIDEO,
+        playerVars: { loop: 1, playlist: VIDEO, rel: 0, playsinline: 1 },
+        events: {
+          onReady: () => {
+            playerReady = true;
+            if (wantPlay) player.playVideo();
+          },
+          onStateChange: e => {
+            if (e.data === YT.PlayerState.PLAYING) setPlaying(true);
+            if (e.data === YT.PlayerState.PAUSED) setPlaying(false);
+          },
         },
-      },
+      });
     });
+
+    const firstGesture = (e) => {
+      document.removeEventListener('click', firstGesture, true);
+      document.removeEventListener('keydown', firstGesture, true);
+      if (userStopped || e.target.closest?.('#music, #radio')) return;
+      startMusic();
+    };
+    document.addEventListener('click', firstGesture, true);
+    document.addEventListener('keydown', firstGesture, true);
+  }
+
+  musicBtn.addEventListener('click', () => {
+    if (musicBtn.getAttribute('aria-pressed') === 'true') {
+      userStopped = true;
+      stopMusic();
+    } else {
+      startMusic();
+    }
   });
 
   document.getElementById('radio-close').addEventListener('click', () => {
-    player?.pauseVideo();
-    radio.hidden = true;
-    setPlaying(false);
+    userStopped = true;
+    stopMusic();
+    radio.classList.add('parked');
     musicBtn.focus();
   });
 
