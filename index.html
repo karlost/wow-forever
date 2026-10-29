@@ -1,0 +1,1119 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WoW Forever – odpočet</title>
+<meta name="description" content="Odpočet do startu World of Warcraft: Forever – čtvrtek 5. listopadu 2026 o půlnoci.">
+<meta name="theme-color" content="#2a0a0c">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Družino, nabruste sekery!">
+<meta property="og:description" content="World of Warcraft: Forever startuje 5. 11. 2026 úderem půlnoci. Družina: Chodec, Katsuga, Sparticka, Markus, Kudry.">
+<meta property="og:image" content="https://digihood.github.io/wow-forever/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://digihood.github.io/wow-forever/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='6' fill='%23a8180f'/%3E%3Cpath d='M11 7C6 19 10 30 20 36 14 28 14 18 16 10Z M29 7C34 19 30 30 20 36 26 28 26 18 24 10Z M20 3 24 15 20 29 16 15Z' fill='%231a0806'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Marcellus&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ash: #1a0806;
+    --blood: #6b1410;
+    --horde: #a8180f;
+    --ember: #ff7a1a;
+    --gold: #f4b942;
+    --bone: #efe0c4;
+    --px: 0;
+    --py: 0;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; }
+
+  body {
+    min-height: 100svh;
+    color: var(--bone);
+    font-family: "Marcellus", Georgia, serif;
+    background: linear-gradient(180deg,
+      #12070a 0%, #2a0a0c 18%, #5a1210 38%, #9a2414 52%,
+      #d4521e 61%, #f48a3a 66%, #ffbf6a 69%, #c4441c 78%, #3a0f0a 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+
+  /* ---------- scene ---------- */
+
+  .scene {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .layer {
+    position: absolute;
+    inset: 0 -40px;
+    width: calc(100% + 80px);
+    height: 100%;
+    transition: transform .8s cubic-bezier(.2, .7, .2, 1);
+  }
+  .layer svg { display: block; width: 100%; height: 100%; }
+
+  .l-farthest { transform: translate3d(calc(var(--px) * 4px), calc(var(--py) * 2px), 0); }
+  .l-far      { transform: translate3d(calc(var(--px) * 8px), calc(var(--py) * 3px), 0); }
+  .l-mid      { transform: translate3d(calc(var(--px) * 14px), calc(var(--py) * 5px), 0); }
+  .l-city     { transform: translate3d(calc(var(--px) * 22px), calc(var(--py) * 7px), 0); }
+  .l-front    { transform: translate3d(calc(var(--px) * 34px), calc(var(--py) * 10px), 0); }
+
+  .sun {
+    position: absolute;
+    left: 72%;
+    top: 64%;
+    width: 56vmin;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+      #fff6d8 0 8%, #ffd27a 11%, #ff9a3a 18%,
+      rgba(255, 110, 40, .45) 30%, rgba(255, 80, 30, .15) 48%, transparent 68%);
+    animation: sun 9s ease-in-out infinite alternate;
+  }
+  @keyframes sun { to { scale: 1.06; opacity: .92; } }
+
+  .clouds {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 200vw;
+    animation: clouds 220s linear infinite;
+  }
+  .clouds.front { animation-duration: 130s; }
+  .clouds i {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgb(255 150 90 / var(--a)) 0%, transparent 70%);
+  }
+  .clouds.front i { background: radial-gradient(ellipse at center, rgb(255 185 120 / var(--a)) 0%, transparent 70%); }
+  @keyframes clouds { to { transform: translateX(-100vw); } }
+
+  .flyer { position: absolute; left: 0; }
+  .flyer svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+  .rider {
+    top: 19%;
+    width: clamp(46px, 5vw, 84px);
+    animation: fly 44s linear infinite;
+    animation-delay: -9s;
+  }
+  .rider svg { animation: bob 3.2s ease-in-out infinite; }
+  .rider .wing { transform-origin: 56px 30px; animation: flap .9s ease-in-out infinite alternate; }
+  .rider .wing.far { animation-delay: -.08s; }
+  @keyframes fly {
+    from { transform: translate3d(-12vw, 6vh, 0); }
+    to   { transform: translate3d(112vw, -6vh, 0); }
+  }
+  @keyframes bob { 50% { transform: translateY(12px); } }
+  @keyframes flap { from { transform: scaleY(1); } to { transform: scaleY(-.65); } }
+
+  .zeppelin {
+    top: 27%;
+    width: clamp(90px, 10vw, 170px);
+    animation: drift 170s linear infinite;
+    animation-delay: -70s;
+  }
+  .zeppelin svg { animation: bob 7s ease-in-out infinite; }
+  .zeppelin .prop { transform-origin: 128px 80px; animation: prop .18s linear infinite alternate; }
+  @keyframes drift {
+    from { transform: translate3d(108vw, 0, 0); }
+    to   { transform: translate3d(-24vw, 2vh, 0); }
+  }
+  @keyframes prop { to { transform: scaleY(.15); } }
+
+  .flag { transform-box: fill-box; transform-origin: left center; animation: flag 2.4s ease-in-out infinite; }
+  .flag:nth-of-type(2n) { animation-duration: 2.9s; animation-delay: -1s; }
+  @keyframes flag { 50% { transform: skewY(7deg) scaleX(.9); } }
+
+  .gate-glow { animation: glow 3.4s ease-in-out infinite alternate; }
+  .door { animation: glow 2.6s ease-in-out infinite alternate; }
+  .door:nth-child(3n) { animation-duration: 3.8s; animation-delay: -1.4s; }
+  @keyframes glow { to { opacity: .55; } }
+
+  .brazier {
+    position: absolute;
+    bottom: -1vh;
+    height: clamp(100px, min(28vh, 42vw), 270px);
+    aspect-ratio: 120 / 230;
+  }
+  .brazier.left  { left: clamp(4px, 3vw, 60px); }
+  .brazier.right { right: clamp(4px, 3vw, 60px); }
+  .brazier svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .brazier .halo { animation: glow 1.7s ease-in-out infinite alternate; }
+  .brazier .f1 { transform-origin: 60px 134px; animation: burn 1.3s ease-in-out infinite; }
+  .brazier .f2 { transform-origin: 60px 134px; animation: burn .9s ease-in-out infinite reverse; }
+  .brazier .f3 { transform-origin: 60px 134px; animation: burn .7s ease-in-out infinite; }
+  .brazier.right .f1 { animation-delay: -.5s; }
+  .brazier.right .f2 { animation-delay: -.3s; }
+  @keyframes burn {
+    0%, 100% { transform: scale(1, 1) skewX(0deg); }
+    25% { transform: scale(.96, 1.08) skewX(-3deg); }
+    50% { transform: scale(1.03, .94) skewX(2deg); }
+    75% { transform: scale(.98, 1.05) skewX(3deg); }
+  }
+
+  #embers { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 70% at 50% 42%, transparent 40%, rgba(8, 3, 2, .5) 78%, rgba(8, 3, 2, .85) 100%),
+      linear-gradient(180deg, rgba(10, 3, 3, .55), transparent 30%);
+  }
+  .grain {
+    position: absolute;
+    inset: 0;
+    opacity: .09;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- content ---------- */
+
+  .stage { position: relative; }
+
+  .hero {
+    min-height: 94svh;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    justify-items: center;
+    padding: 0 16px 5svh;
+    overflow-x: clip;
+  }
+
+  .warband {
+    position: relative;
+    width: min(100%, 800px);
+    padding-top: 14px;
+  }
+
+  .pole {
+    position: relative;
+    height: 9px;
+    margin: 0 -10px;
+    border-radius: 5px;
+    background:
+      repeating-linear-gradient(90deg, transparent 0 90px, rgba(0, 0, 0, .35) 90px 96px),
+      linear-gradient(180deg, #7a4a2a, #4a2a16 60%, #2a160c);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .6);
+  }
+  .pole::before, .pole::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 34px;
+    height: 20px;
+    translate: 0 -50%;
+    background: linear-gradient(180deg, #c9b9a0, #6e655a 55%, #3a332c);
+  }
+  .pole::before { right: 100%; clip-path: polygon(0 50%, 100% 0, 88% 50%, 100% 100%); }
+  .pole::after  { left: 100%;  clip-path: polygon(100% 50%, 0 0, 12% 50%, 0 100%); }
+
+  .banners {
+    list-style: none;
+    margin: -4px 0 0;
+    padding: 0 clamp(4px, 2vw, 24px);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(6px, 2.2vw, 30px);
+  }
+
+  .banner {
+    position: relative;
+    height: clamp(120px, 21vh, 210px);
+    transform-origin: 50% 0;
+    animation: sway 6s ease-in-out infinite;
+    filter: drop-shadow(0 10px 12px rgba(0, 0, 0, .55));
+  }
+  .banner:nth-child(2) { animation-duration: 7.2s; animation-delay: -2s; }
+  .banner:nth-child(3) { animation-duration: 5.4s; animation-delay: -4s; }
+  .banner:nth-child(4) { animation-duration: 6.8s; animation-delay: -1s; }
+  .banner:nth-child(5) { animation-duration: 6.1s; animation-delay: -3s; }
+  @keyframes sway {
+    0%, 100% { transform: rotate(-1.4deg); }
+    50% { transform: rotate(1.6deg); }
+  }
+
+  .cloth {
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 86%, 82% 81%, 66% 92%, 50% 84%, 34% 100%, 18% 85%, 0 91%);
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, .45) 0 9px, rgba(255, 210, 150, .12) 9px 11px, transparent 11px),
+      repeating-linear-gradient(90deg, rgba(0, 0, 0, .08) 0 2px, transparent 2px 5px),
+      radial-gradient(ellipse 120% 70% at 30% 30%, #c42414, #8a160d 60%, #4e0c08);
+  }
+  .cloth::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, .35), transparent 22%, transparent 78%, rgba(0, 0, 0, .4));
+  }
+
+  .crest {
+    position: absolute;
+    left: 50%;
+    top: 18%;
+    width: 44%;
+    height: auto;
+    aspect-ratio: 1;
+    translate: -50% 0;
+    fill: var(--ash);
+    opacity: .9;
+  }
+
+  .name {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 56%;
+    padding: 0 4px;
+    text-align: center;
+    font-family: "Cinzel Decorative", "Cinzel", serif;
+    font-weight: 900;
+    font-size: clamp(11px, 2.3vw, 21px);
+    line-height: 1;
+    color: #ffe3a8;
+    text-shadow: 0 1px 0 #3a0806, 0 0 10px rgba(255, 170, 90, .3);
+  }
+
+  @media (max-width: 560px) {
+    .crest { top: 9%; width: 52%; }
+    .name {
+      top: 32%;
+      left: 50%;
+      right: auto;
+      padding: 0;
+      translate: -50% 0;
+      writing-mode: vertical-rl;
+      font-size: clamp(12px, 3.6vw, 16px);
+      letter-spacing: .04em;
+    }
+  }
+
+  .call {
+    align-self: center;
+    position: relative;
+    text-align: center;
+    max-width: 62rem;
+    padding-top: clamp(16px, 4vh, 48px);
+  }
+  .call::before {
+    content: "";
+    position: absolute;
+    inset: -10% -8%;
+    z-index: -1;
+    background: radial-gradient(ellipse at center, rgba(22, 6, 4, .55), transparent 68%);
+  }
+
+  h1 {
+    margin: 0 auto;
+    max-width: 30ch;
+    font-family: "Cinzel Decorative", "Cinzel", serif;
+    font-weight: 700;
+    font-size: clamp(24px, 3.7vw, 50px);
+    line-height: 1.12;
+    text-wrap: balance;
+    text-shadow: 0 2px 0 #2a0806, 0 0 28px rgba(0, 0, 0, .7);
+  }
+
+  .lead {
+    margin: clamp(14px, 2.4vh, 26px) 0 clamp(4px, 1vh, 10px);
+    font-size: clamp(17px, 2.2vw, 24px);
+    letter-spacing: .02em;
+    color: #f2c98a;
+    text-shadow: 0 1px 0 #2a0806;
+  }
+
+  .countdown {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(2px, 1vw, 14px);
+  }
+
+  .unit { display: grid; justify-items: center; }
+
+  .num {
+    display: flex;
+    font-family: "Cinzel Decorative", "Cinzel", serif;
+    font-weight: 900;
+    font-size: clamp(46px, min(12vw, 17vh), 150px);
+    line-height: 1.05;
+    filter: drop-shadow(0 0 16px rgba(255, 100, 25, .55)) drop-shadow(0 4px 0 #2a0806);
+  }
+  .num b {
+    width: .7em;
+    text-align: center;
+    font-weight: inherit;
+    background: linear-gradient(180deg, #fff4cf 8%, #ffd27a 30%, #ff8a2a 56%, #c3260f 82%, #6b1410 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .num b.flare { animation: flare .7s ease-out; }
+  @keyframes flare { from { filter: brightness(1.7) saturate(1.2); } }
+
+  .sep {
+    display: grid;
+    gap: .2em;
+    padding-top: .36em;
+    font-size: clamp(46px, min(12vw, 17vh), 150px);
+  }
+  .sep i {
+    width: .085em;
+    aspect-ratio: 1;
+    rotate: 45deg;
+    background: var(--ember);
+    box-shadow: 0 0 10px #ff5a10;
+  }
+
+  .lbl {
+    margin-top: .25em;
+    font-size: clamp(14px, 1.7vw, 19px);
+    color: #f2d7ae;
+    text-shadow: 0 1px 0 #2a0806;
+  }
+
+  .when {
+    margin: clamp(14px, 3vh, 30px) auto 0;
+    max-width: 52ch;
+    font-size: clamp(16px, 1.9vw, 21px);
+    line-height: 1.4;
+    text-shadow: 0 1px 0 #2a0806, 0 0 14px rgba(0, 0, 0, .8);
+  }
+
+  .cry {
+    margin: .4em 0 0;
+    font-family: "Cinzel Decorative", "Cinzel", serif;
+    font-weight: 700;
+    font-size: clamp(22px, 2.8vw, 32px);
+    color: var(--ember);
+    text-shadow: 0 0 18px rgba(255, 90, 20, .6), 0 2px 0 #2a0806;
+  }
+
+  .music {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: clamp(14px, 2.6vh, 26px);
+    padding: 10px 20px 10px 14px;
+    border: 1px solid #b8862f;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #4a1a10, #2a0b08);
+    box-shadow: inset 0 1px 0 rgba(255, 210, 140, .25), 0 0 0 3px rgba(20, 6, 4, .7), 0 6px 18px rgba(0, 0, 0, .5);
+    color: #ffe3a8;
+    font: inherit;
+    font-size: clamp(15px, 1.6vw, 18px);
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+  }
+  .music:hover { background: linear-gradient(180deg, #6b2414, #3a0f0a); border-color: #f4b942; }
+  .music:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+  .music svg { width: 20px; height: 20px; fill: var(--ember); }
+  .music .on { display: none; }
+  .music[aria-pressed="true"] .on { display: block; }
+  .music[aria-pressed="true"] .off { display: none; }
+
+  .radio {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 5;
+    width: min(356px, calc(100vw - 32px));
+    aspect-ratio: 16 / 9;
+    padding: 4px;
+    border: 1px solid #b8862f;
+    background: #1a0806;
+    box-shadow: 0 0 0 3px rgba(20, 6, 4, .8), 0 12px 30px rgba(0, 0, 0, .7);
+  }
+  .radio[hidden] { display: none; }
+  .radio iframe, .radio #yt { display: block; width: 100%; height: 100%; border: 0; }
+  .radio-close {
+    position: absolute;
+    top: -14px;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #b8862f;
+    border-radius: 50%;
+    background: #2a0b08;
+    color: #ffe3a8;
+    font: 20px/1 "Marcellus", serif;
+    cursor: pointer;
+  }
+  .radio-close:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* ---------- screenshots ---------- */
+
+  .photos { position: absolute; inset: 0; }
+  .photos:empty::after { display: none; }
+  .photos::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(24, 5, 4, .78) 0%, rgba(40, 8, 5, .3) 30%, rgba(40, 8, 5, .25) 60%, rgba(18, 4, 3, .9) 100%);
+  }
+  .slide {
+    position: absolute;
+    inset: -3%;
+    background: center / cover no-repeat;
+    filter: sepia(.3) saturate(1.1) contrast(1.05) brightness(.82);
+    opacity: 0;
+    animation: slide-in 2.4s ease forwards, kenburns 16s linear forwards;
+  }
+  @keyframes slide-in { to { opacity: 1; } }
+  @keyframes kenburns {
+    from { transform: scale(1.12) translate3d(var(--kx, 0), var(--ky, 0), 0); }
+    to   { transform: scale(1) translate3d(0, 0, 0); }
+  }
+  .scene.photo-mode .sun,
+  .scene.photo-mode .clouds,
+  .scene.photo-mode .layer,
+  .scene.photo-mode .flyer { display: none; }
+
+  /* ---------- quest ---------- */
+
+  .quest {
+    position: relative;
+    width: min(calc(100% - 32px), 640px);
+    margin: 0 auto 12svh;
+    padding: clamp(24px, 5vw, 44px) clamp(20px, 5vw, 48px);
+    color: #3b2414;
+    background:
+      radial-gradient(ellipse at 18% 8%, rgba(255, 250, 230, .65), transparent 50%),
+      radial-gradient(ellipse at 85% 95%, rgba(150, 100, 40, .35), transparent 55%),
+      linear-gradient(180deg, #efdcb0, #dfc28b);
+    box-shadow:
+      inset 0 0 50px rgba(120, 70, 20, .5),
+      0 0 0 3px #2a1208, 0 0 0 4px #b8862f,
+      0 24px 60px rgba(0, 0, 0, .65);
+  }
+  .quest h2 {
+    margin: 0 0 .6em;
+    font-family: "Cinzel Decorative", "Cinzel", serif;
+    font-weight: 900;
+    font-size: clamp(24px, 3.4vw, 34px);
+    text-align: center;
+    color: #2a1208;
+  }
+  .quest h3 {
+    margin: 1.5em 0 .4em;
+    font-family: "Cinzel Decorative", "Cinzel", serif;
+    font-weight: 700;
+    font-size: clamp(17px, 2vw, 20px);
+    color: #6b1410;
+  }
+  .quest-text, .reward {
+    margin: 0;
+    font-size: clamp(16px, 1.8vw, 19px);
+    line-height: 1.6;
+  }
+  .hint { margin: 0 0 .5em; font-size: 15px; color: #6b4a2a; }
+
+  .objectives { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .objectives button {
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 2px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: clamp(16px, 1.8vw, 19px);
+    line-height: 1.35;
+    text-align: left;
+    cursor: pointer;
+  }
+  .objectives button:hover { background: rgba(120, 60, 20, .12); }
+  .objectives button:focus-visible { outline: 2px solid #8a1a0c; outline-offset: 2px; }
+  .objectives .txt { display: flex; gap: .6em; }
+  .objectives .txt::before {
+    content: "";
+    flex: none;
+    width: .72em;
+    height: .72em;
+    margin-top: .28em;
+    border: 2px solid #6b4a2a;
+  }
+  .objectives [aria-pressed="true"] { color: #8a7656; }
+  .objectives [aria-pressed="true"] .txt::before {
+    border-color: #8a1a0c;
+    background: #8a1a0c;
+    box-shadow: inset 0 0 0 2px #efdcb0;
+  }
+  .objectives .cnt { flex: none; font-variant-numeric: tabular-nums; }
+
+  .quest-done {
+    margin: .8em 0 0;
+    padding: 10px 12px;
+    border-left: 3px solid #8a1a0c;
+    background: rgba(138, 26, 12, .1);
+    color: #5a1a0c;
+  }
+  .quest-done[hidden] { display: none; }
+
+  .og-date b { width: auto; }
+  .og-date { font-size: clamp(46px, min(12vw, 17vh), 150px); }
+  .og .music, .og .quest { display: none; }
+
+  body.launched .lead,
+  body.launched .countdown { display: none; }
+
+  @media (orientation: portrait) {
+    .sun { left: 50%; top: 63%; width: 80vmin; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scene *, .banner { animation: none !important; transition: none !important; }
+    .num b.flare { animation: none; }
+    .slide { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="g-farthest" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c25226"/><stop offset=".25" stop-color="#9a3a1c"/>
+    </linearGradient>
+    <linearGradient id="g-far" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8e2c17"/><stop offset=".3" stop-color="#5e1a10"/>
+    </linearGradient>
+    <linearGradient id="g-mid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#561710"/><stop offset=".3" stop-color="#36100b"/>
+    </linearGradient>
+    <linearGradient id="g-tusk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6e3018"/><stop offset=".45" stop-color="#2c0f09"/><stop offset="1" stop-color="#1a0806"/>
+    </linearGradient>
+    <radialGradient id="g-gate" cx=".5" cy=".75" r=".8">
+      <stop offset="0" stop-color="#ffd27a"/><stop offset=".45" stop-color="#ff7a1a"/><stop offset="1" stop-color="#8a1a0c"/>
+    </radialGradient>
+    <linearGradient id="g-flame-1" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#c3260f"/><stop offset=".6" stop-color="#ff6a1a"/><stop offset="1" stop-color="#ff9a3a" stop-opacity=".4"/>
+    </linearGradient>
+    <linearGradient id="g-flame-2" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#ff8a2a"/><stop offset="1" stop-color="#ffc35a"/>
+    </linearGradient>
+    <radialGradient id="g-halo">
+      <stop offset="0" stop-color="#ff8a2a" stop-opacity=".55"/><stop offset="1" stop-color="#ff5a10" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="g-zep" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7a2a16"/><stop offset=".35" stop-color="#3a110b"/><stop offset="1" stop-color="#22090a"/>
+    </linearGradient>
+    <symbol id="crest" viewBox="0 0 40 40">
+      <path d="M11 7C6 19 10 30 20 36 14 28 14 18 16 10Z"/>
+      <path d="M29 7C34 19 30 30 20 36 26 28 26 18 24 10Z"/>
+      <path d="M20 3 24 15 20 29 16 15Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="scene" aria-hidden="true">
+  <div class="sun"></div>
+  <div class="clouds back"></div>
+
+  <div class="layer l-farthest">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+      <path fill="url(#g-farthest)" opacity=".75" d="M0,900 L0,590 L120,584 L200,540 L230,536 L250,575 L380,582 L520,570 L560,548 L640,544 L680,578 L900,588 L1080,580 L1100,556 L1180,552 L1220,580 L1420,584 L1470,548 L1520,546 L1550,578 L1600,580 L1600,900 Z"/>
+    </svg>
+  </div>
+
+  <div class="layer l-far">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+      <path fill="url(#g-far)" d="M0,900 L0,600 L40,596 L58,566 L150,560 L164,598 L250,606 L268,572 L286,500 L312,496 L330,570 L356,592 L470,596 L490,560 L598,556 L612,594 L760,606 L1000,604 L1022,566 L1124,560 L1140,540 L1166,538 L1178,566 L1196,598 L1326,602 L1346,520 L1368,516 L1386,578 L1416,596 L1498,592 L1514,560 L1600,556 L1600,900 Z"/>
+    </svg>
+  </div>
+
+  <div class="flyer zeppelin">
+    <svg viewBox="0 0 200 100">
+      <path d="M78,60 L84,74 M122,60 L116,74" stroke="#2a0c08" stroke-width="2"/>
+      <ellipse cx="100" cy="36" rx="84" ry="26" fill="url(#g-zep)"/>
+      <path d="M40,18 Q35,36 40,54 M70,11 Q65,36 70,61 M100,10 L100,62 M130,11 Q135,36 130,61 M160,18 Q165,36 160,54" stroke="#1a0806" stroke-width="2" fill="none" opacity=".55"/>
+      <path d="M170,30 L196,10 L192,32 Z M170,42 L196,62 L192,40 Z" fill="#2a0c08"/>
+      <path d="M76,74 L124,74 L120,86 L80,86 Z" fill="#22090a"/>
+      <rect x="86" y="78" width="5" height="3" fill="#ffb45a"/>
+      <rect x="98" y="78" width="5" height="3" fill="#ffb45a" opacity=".7"/>
+      <ellipse class="prop" cx="128" cy="80" rx="2" ry="9" fill="#3a110b"/>
+    </svg>
+  </div>
+
+  <div class="layer l-mid">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+      <path fill="url(#g-mid)" d="M0,900 L0,668 L80,660 L120,632 L200,626 L236,656 L360,668 L400,646 L436,600 L452,596 L470,640 L506,664 L640,676 L960,676 L1110,670 L1180,660 L1214,628 L1310,622 L1340,652 L1450,646 L1490,614 L1530,610 L1552,640 L1600,642 L1600,900 Z"/>
+    </svg>
+  </div>
+
+  <div class="flyer rider">
+    <svg viewBox="-10 -10 130 70">
+      <g fill="#2a0b08">
+        <path class="wing far" d="M64,30 C66,16 74,4 92,-4 C86,6 86,12 88,18 C82,17 78,21 76,25 C72,23 68,25 66,30 Z" opacity=".75"/>
+        <path d="M36,32 C26,33 14,40 2,38 C14,36 24,30 38,29 Z"/>
+        <path d="M38,30 C50,25 72,25 84,29 C90,30 96,27 102,22 L106,24 C101,31 94,36 84,37 C70,40 52,40 38,35 Z"/>
+        <path d="M100,20 L114,23 L104,28 Z"/>
+        <path d="M64,28 L66,17 L71,15 L73,19 L71,28 Z"/>
+        <path class="wing" d="M58,31 C52,16 42,4 18,-2 C26,7 28,13 26,19 C32,17 36,20 38,25 C44,21 50,25 52,31 Z"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="clouds front"></div>
+
+  <div class="layer l-city">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+      <g id="city" fill="#1a0806"></g>
+      <g id="city-lights" fill="#ff9a3a"></g>
+    </svg>
+  </div>
+
+  <div class="layer l-front">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+      <path fill="#0c0403" d="M0,900 L0,812 C110,796 230,806 360,816 C520,828 640,842 800,848 C960,842 1080,828 1240,816 C1370,806 1490,796 1600,808 L1600,900 Z"/>
+    </svg>
+  </div>
+
+  <div class="photos" id="photos"></div>
+
+  <div class="brazier left"><svg viewBox="0 0 120 230"><use href="#brazier-art"/></svg></div>
+  <div class="brazier right"><svg viewBox="0 0 120 230"><use href="#brazier-art"/></svg></div>
+
+  <canvas id="embers"></canvas>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="brazier-art" viewBox="0 0 120 230" overflow="visible">
+    <circle class="halo" cx="60" cy="96" r="78" fill="url(#g-halo)"/>
+    <path class="f1" fill="url(#g-flame-1)" d="M60,134 C28,130 22,100 36,78 C40,94 48,98 50,88 C44,64 56,44 60,14 C66,40 82,54 80,80 C86,74 90,64 88,54 C104,74 100,124 60,134 Z"/>
+    <path class="f2" fill="url(#g-flame-2)" d="M60,134 C38,130 34,108 44,92 C48,102 54,104 55,96 C52,80 58,66 62,48 C66,66 76,78 74,96 C78,92 80,86 80,80 C90,96 86,128 60,134 Z"/>
+    <path class="f3" fill="#fff0c0" d="M60,134 C46,132 44,118 50,108 C54,114 58,112 58,106 C60,96 62,90 64,82 C68,96 74,104 72,116 C72,126 68,132 60,134 Z"/>
+    <g fill="#160605">
+      <path d="M14,128 L106,128 L98,140 L88,156 L32,156 L22,140 Z"/>
+      <path d="M14,129 L6,110 L24,128 Z M106,129 L114,110 L96,128 Z M44,129 L40,116 L52,128 Z M76,129 L80,116 L68,128 Z"/>
+      <path d="M54,156 L66,156 L68,206 L52,206 Z"/>
+      <path d="M53,198 L20,228 L29,230 L58,206 Z M67,198 L100,228 L91,230 L62,206 Z"/>
+    </g>
+    <path d="M18,129 L102,129" stroke="#ff8a2a" stroke-width="2" opacity=".7"/>
+  </symbol>
+</svg>
+
+<main class="stage">
+ <div class="hero">
+  <header class="warband">
+    <div class="pole"></div>
+    <ul class="banners" aria-label="Družina">
+      <li class="banner"><div class="cloth"></div><svg class="crest" aria-hidden="true"><use href="#crest"/></svg><span class="name">Chodec</span></li>
+      <li class="banner"><div class="cloth"></div><svg class="crest" aria-hidden="true"><use href="#crest"/></svg><span class="name">Katsuga</span></li>
+      <li class="banner"><div class="cloth"></div><svg class="crest" aria-hidden="true"><use href="#crest"/></svg><span class="name">Sparticka</span></li>
+      <li class="banner"><div class="cloth"></div><svg class="crest" aria-hidden="true"><use href="#crest"/></svg><span class="name">Markus</span></li>
+      <li class="banner"><div class="cloth"></div><svg class="crest" aria-hidden="true"><use href="#crest"/></svg><span class="name">Kudry</span></li>
+    </ul>
+  </header>
+
+  <section class="call">
+    <h1 id="headline">Družino, nabruste sekery!</h1>
+    <p class="lead">Brány Azerothu se otevřou za</p>
+    <div class="countdown" id="countdown" role="timer">
+      <div class="unit"><div class="num" data-unit="d"><b>0</b><b>0</b></div><div class="lbl">dní</div></div>
+      <div class="sep" aria-hidden="true"><i></i><i></i></div>
+      <div class="unit"><div class="num" data-unit="h"><b>0</b><b>0</b></div><div class="lbl">hodin</div></div>
+      <div class="sep" aria-hidden="true"><i></i><i></i></div>
+      <div class="unit"><div class="num" data-unit="m"><b>0</b><b>0</b></div><div class="lbl">minut</div></div>
+      <div class="sep" aria-hidden="true"><i></i><i></i></div>
+      <div class="unit"><div class="num" data-unit="s"><b>0</b><b>0</b></div><div class="lbl">sekund</div></div>
+    </div>
+    <p class="when">World of Warcraft: Forever startuje ve čtvrtek 5.&nbsp;listopadu 2026 úderem půlnoci.</p>
+    <p class="cry">Lok'tar ogar!</p>
+    <button class="music" id="music" type="button" aria-pressed="false">
+      <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      <svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+      <span>Pustit hudbu</span>
+    </button>
+  </section>
+ </div>
+
+  <article class="quest" aria-labelledby="quest-title">
+    <h2 id="quest-title">Válečná noc</h2>
+    <p class="quest-text">Družino! O půlnoci se otevřou brány Azerothu a Horda na opozdilce čekat nebude. Než zazní válečný roh, splňte rozkazy svého náčelníka. Kdo dorazí pozdě, hlídá celou noc kodo.</p>
+    <h3>Cíle úkolu</h3>
+    <p class="hint">Splněný cíl si odklikni.</p>
+    <ul class="objectives">
+      <li><button type="button" aria-pressed="false"><span class="txt">Předplatné zaplacené, klient stažený</span><span class="cnt">0/1</span></button></li>
+      <li><button type="button" aria-pressed="false"><span class="txt">Jméno postavy zamluvené dřív, než ho sebere Aliance</span><span class="cnt">0/1</span></button></li>
+      <li><button type="button" aria-pressed="false"><span class="txt">Zásoby na noc: plná lednice a vychlazené energiťáky</span><span class="cnt">0/1</span></button></li>
+      <li><button type="button" aria-pressed="false"><span class="txt">Volno na ráno vyjednané (omluvenka: horečka z Barrens)</span><span class="cnt">0/1</span></button></li>
+    </ul>
+    <p class="quest-done" id="quest-done" hidden>Úkol splněn. O půlnoci se hlas u náčelníka.</p>
+    <h3>Odměna</h3>
+    <p class="reward">Místo v družině a věčná sláva v Azerothu.</p>
+  </article>
+</main>
+
+<div class="radio" id="radio" hidden>
+  <div id="yt"></div>
+  <button class="radio-close" id="radio-close" type="button" aria-label="Zavřít přehrávač">×</button>
+</div>
+
+<script>
+(() => {
+  // 4. 11. 2026 15:00 PST = 5. 11. 2026 0:00 SEČ
+  const TARGET = Date.UTC(2026, 10, 4, 23, 0, 0);
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let skew = 0;
+
+  // ---------- city silhouette ----------
+  const shapes = [];
+  const lights = [];
+
+  const hut = (cx, by, w, door = true) => {
+    shapes.push(`M${cx - w / 2},${by} L${cx - w / 2},${by - w * .35} Q${cx - w / 2},${by - w * .8} ${cx},${by - w * .82} Q${cx + w / 2},${by - w * .8} ${cx + w / 2},${by - w * .35} L${cx + w / 2},${by} Z`);
+    shapes.push(`M${cx - 3},${by - w * .78} L${cx},${by - w * 1.2} L${cx + 3},${by - w * .78} Z`);
+    shapes.push(`M${cx - w * .3},${by - w * .64} Q${cx - w * .58},${by - w * .86} ${cx - w * .64},${by - w * 1.06} Q${cx - w * .46},${by - w * .84} ${cx - w * .2},${by - w * .72} Z`);
+    shapes.push(`M${cx + w * .3},${by - w * .64} Q${cx + w * .58},${by - w * .86} ${cx + w * .64},${by - w * 1.06} Q${cx + w * .46},${by - w * .84} ${cx + w * .2},${by - w * .72} Z`);
+    if (door) lights.push(`<path class="door" d="M${cx - w * .1},${by} L${cx - w * .1},${by - w * .2} Q${cx},${by - w * .3} ${cx + w * .1},${by - w * .2} L${cx + w * .1},${by} Z"/>`);
+  };
+
+  const wall = (x0, x1, top, bottom = 780) => {
+    shapes.push(`M${x0},${bottom} L${x0},${top} L${x1},${top} L${x1},${bottom} Z`);
+    for (let x = x0 + 6, i = 0; x < x1 - 3; x += 15, i++) {
+      const h = 12 + (i % 3) * 5;
+      shapes.push(`M${x - 4},${top} L${x},${top - h} L${x + 4},${top} Z`);
+    }
+  };
+
+  const tower = (cx, top) => {
+    shapes.push(`M${cx - 18},780 L${cx - 13},${top + 10} L${cx + 13},${top + 10} L${cx + 18},780 Z`);
+    shapes.push(`M${cx - 28},${top + 10} L${cx - 24},${top} L${cx + 24},${top} L${cx + 28},${top + 10} Z`);
+    shapes.push(`M${cx - 22},${top} L${cx},${top - 42} L${cx + 22},${top} Z`);
+    shapes.push(`M${cx - 24},${top + 4} L${cx - 48},${top - 8} L${cx - 24},${top + 9} Z`);
+    shapes.push(`M${cx + 24},${top + 4} L${cx + 48},${top - 8} L${cx + 24},${top + 9} Z`);
+    shapes.push(`M${cx - 1.5},${top - 40} L${cx - 1.5},${top - 82} L${cx + 1.5},${top - 82} L${cx + 1.5},${top - 40} Z`);
+    lights.push(`<path class="flag" fill="#9a1a10" d="M${cx + 1.5},${top - 82} L${cx + 36},${top - 79} L${cx + 27},${top - 71} L${cx + 36},${top - 62} L${cx + 1.5},${top - 62} Z"/>`);
+    lights.push(`<rect class="door" x="${cx - 4}" y="${top + 26}" width="8" height="10"/>`);
+  };
+
+  const gateTower = (x0, x1, top) => {
+    shapes.push(`M${x0},780 L${x0},${top + 12} L${x0 - 6},${top} L${x1 + 6},${top} L${x1},${top + 12} L${x1},780 Z`);
+    for (let x = x0 - 2, i = 0; x <= x1 + 2; x += 14, i++) {
+      const h = 14 + (i % 2) * 8;
+      shapes.push(`M${x - 5},${top} L${x + (x < (x0 + x1) / 2 ? -3 : 3)},${top - h} L${x + 5},${top} Z`);
+    }
+  };
+
+  // ground
+  shapes.push('M0,900 L0,742 C120,726 220,716 330,720 C480,726 600,722 800,724 C1000,726 1120,716 1270,720 C1400,724 1500,732 1600,728 L1600,900 Z');
+  // huts behind the walls
+  hut(470, 702, 64, false); hut(590, 700, 72, false); hut(1010, 700, 72, false); hut(1130, 702, 62, false);
+  // walls
+  wall(340, 700, 690); wall(900, 1260, 690);
+  // gate
+  shapes.push('M748,780 L748,676 L852,676 L852,780 Z');
+  gateTower(692, 748, 652); gateTower(852, 908, 652);
+  // watchtowers
+  tower(420, 612); tower(1180, 612);
+  // outer huts
+  hut(110, 744, 58); hut(185, 736, 72); hut(265, 728, 54);
+  hut(1335, 728, 56); hut(1415, 736, 74); hut(1500, 742, 60);
+
+  const tusks = [
+    'M700,658 C676,600 708,546 792,524 C736,554 718,604 740,658 Z',
+    'M900,658 C924,600 892,546 808,524 C864,554 882,604 860,658 Z',
+  ].map(d => `<path fill="url(#g-tusk)" d="${d}"/>`).join('');
+
+  document.getElementById('city').innerHTML =
+    shapes.map(d => `<path d="${d}"/>`).join('') + tusks;
+  document.getElementById('city-lights').innerHTML =
+    '<path class="gate-glow" fill="url(#g-gate)" d="M778,726 L778,706 Q800,684 822,706 L822,726 Z"/>' + lights.join('');
+
+  // ---------- clouds ----------
+  let seed = 1717;
+  const rand = () => {
+    seed = (seed * 16807) % 2147483647;
+    return (seed - 1) / 2147483646;
+  };
+  const fillClouds = (el, count, yMin, yMax, wMin, wMax, aMin, aMax) => {
+    let html = '';
+    for (let i = 0; i < count; i++) {
+      const x = rand() * 100, y = yMin + rand() * (yMax - yMin);
+      const w = wMin + rand() * (wMax - wMin), h = 1.6 + rand() * 3.4;
+      const a = (aMin + rand() * (aMax - aMin)).toFixed(2);
+      for (const off of [0, 100]) {
+        html += `<i style="left:${(x + off).toFixed(2)}vw;top:${y.toFixed(2)}%;width:${w.toFixed(1)}vw;height:${h.toFixed(1)}vh;--a:${a}"></i>`;
+      }
+    }
+    el.innerHTML = html;
+  };
+  fillClouds(document.querySelector('.clouds.back'), 11, 6, 62, 18, 42, .1, .24);
+  fillClouds(document.querySelector('.clouds.front'), 6, 60, 72, 30, 60, .06, .14);
+
+  // ---------- parallax ----------
+  if (!reduceMotion) {
+    const root = document.documentElement;
+    addEventListener('pointermove', e => {
+      root.style.setProperty('--px', (e.clientX / innerWidth * 2 - 1).toFixed(3));
+      root.style.setProperty('--py', (e.clientY / innerHeight * 2 - 1).toFixed(3));
+    }, { passive: true });
+  }
+
+  // ---------- embers ----------
+  const canvas = document.getElementById('embers');
+  const ctx = canvas.getContext('2d');
+  const sprite = document.createElement('canvas');
+  sprite.width = sprite.height = 32;
+  {
+    const s = sprite.getContext('2d');
+    const g = s.createRadialGradient(16, 16, 0, 16, 16, 16);
+    g.addColorStop(0, 'rgba(255,236,190,1)');
+    g.addColorStop(.25, 'rgba(255,150,50,.85)');
+    g.addColorStop(.6, 'rgba(255,80,20,.25)');
+    g.addColorStop(1, 'rgba(255,60,10,0)');
+    s.fillStyle = g;
+    s.fillRect(0, 0, 32, 32);
+  }
+  let W = 0, H = 0, embers = [];
+  const resize = () => {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+  const spawn = (anywhere) => {
+    const r = Math.random();
+    const x = r < .3 ? W * (.02 + Math.random() * .14) : r < .6 ? W * (.84 + Math.random() * .14) : Math.random() * W;
+    return {
+      x, y: anywhere ? Math.random() * H : H + 10,
+      vy: 18 + Math.random() * 46, vx: 6 + Math.random() * 22,
+      size: 4 + Math.random() * 9, phase: Math.random() * 6.28, wobble: .6 + Math.random() * 1.6,
+    };
+  };
+  resize();
+  addEventListener('resize', resize);
+
+  if (!reduceMotion) {
+    const count = Math.round(Math.min(110, Math.max(40, W / 13)));
+    embers = Array.from({ length: count }, () => spawn(true));
+    let last = performance.now();
+    const frame = (t) => {
+      const dt = Math.min((t - last) / 1000, .05);
+      last = t;
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'lighter';
+      for (let i = 0; i < embers.length; i++) {
+        const p = embers[i];
+        p.phase += dt * p.wobble;
+        p.y -= p.vy * dt;
+        p.x += (p.vx + Math.sin(p.phase * 2) * 18) * dt;
+        const life = p.y / H;
+        if (life < .12 || p.x > W + 20) { embers[i] = spawn(false); continue; }
+        ctx.globalAlpha = Math.min(1, (life - .12) * 2.2) * (.55 + .45 * Math.sin(p.phase * 5));
+        const s = p.size * (.5 + life * .6);
+        ctx.drawImage(sprite, p.x - s / 2, p.y - s / 2, s, s);
+      }
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  }
+
+  // ---------- countdown ----------
+  const plural = (n, one, few, many) => n === 1 ? one : n >= 2 && n <= 4 ? few : many;
+  const forms = {
+    d: ['den', 'dny', 'dní'],
+    h: ['hodina', 'hodiny', 'hodin'],
+    m: ['minuta', 'minuty', 'minut'],
+    s: ['sekunda', 'sekundy', 'sekund'],
+  };
+  const units = {};
+  document.querySelectorAll('.num').forEach(el => {
+    units[el.dataset.unit] = { el, lbl: el.nextElementSibling };
+  });
+
+  const setUnit = (key, value) => {
+    const { el, lbl } = units[key];
+    const text = String(value).padStart(2, '0');
+    while (el.children.length < text.length) el.append(document.createElement('b'));
+    while (el.children.length > text.length) el.lastElementChild.remove();
+    [...text].forEach((ch, i) => {
+      const b = el.children[i];
+      if (b.textContent !== ch) {
+        b.textContent = ch;
+        b.classList.remove('flare');
+        void b.offsetWidth;
+        b.classList.add('flare');
+      }
+    });
+    lbl.textContent = plural(value, ...forms[key]);
+  };
+
+  // ---------- quest objectives (stored per viewer) ----------
+  const QUEST_KEY = 'wow-forever-quest';
+  const objectives = [...document.querySelectorAll('.objectives button')];
+  let questState = [];
+  try { questState = JSON.parse(localStorage.getItem(QUEST_KEY)) || []; } catch {}
+  const renderQuest = () => {
+    objectives.forEach((btn, i) => {
+      btn.setAttribute('aria-pressed', String(!!questState[i]));
+      btn.querySelector('.cnt').textContent = questState[i] ? '1/1' : '0/1';
+    });
+    document.getElementById('quest-done').hidden = !objectives.every((_, i) => questState[i]);
+  };
+  objectives.forEach((btn, i) => btn.addEventListener('click', () => {
+    questState[i] = !questState[i];
+    try { localStorage.setItem(QUEST_KEY, JSON.stringify(questState)); } catch {}
+    renderQuest();
+  }));
+  renderQuest();
+
+  // ---------- music: official Warpath trailer via YouTube embed ----------
+  const VIDEO = 'NPbTAXZL_2A';
+  const musicBtn = document.getElementById('music');
+  const radio = document.getElementById('radio');
+  let player = null;
+
+  const setPlaying = (on) => {
+    musicBtn.setAttribute('aria-pressed', String(on));
+    musicBtn.querySelector('span').textContent = on ? 'Zastavit hudbu' : 'Pustit hudbu';
+  };
+
+  const loadYouTube = () => new Promise(resolve => {
+    if (window.YT && window.YT.Player) return resolve();
+    window.onYouTubeIframeAPIReady = resolve;
+    const s = document.createElement('script');
+    s.src = 'https://www.youtube.com/iframe_api';
+    document.head.append(s);
+  });
+
+  musicBtn.addEventListener('click', async () => {
+    if (musicBtn.getAttribute('aria-pressed') === 'true') {
+      player?.pauseVideo();
+      setPlaying(false);
+      return;
+    }
+    radio.hidden = false;
+    setPlaying(true);
+    if (player) { player.playVideo(); return; }
+    await loadYouTube();
+    player = new YT.Player('yt', {
+      host: 'https://www.youtube-nocookie.com',
+      videoId: VIDEO,
+      playerVars: { autoplay: 1, loop: 1, playlist: VIDEO, rel: 0, playsinline: 1 },
+      events: {
+        onReady: e => e.target.playVideo(),
+        onStateChange: e => {
+          if (e.data === YT.PlayerState.PLAYING) setPlaying(true);
+          if (e.data === YT.PlayerState.PAUSED) setPlaying(false);
+        },
+      },
+    });
+  });
+
+  document.getElementById('radio-close').addEventListener('click', () => {
+    player?.pauseVideo();
+    radio.hidden = true;
+    setPlaying(false);
+    musicBtn.focus();
+  });
+
+  const og = new URLSearchParams(location.search).has('og');
+  if (og) {
+    document.body.classList.add('og');
+    document.getElementById('countdown').innerHTML =
+      '<div class="num og-date"><b>5.</b>&nbsp;<b>XI.</b></div>';
+    document.querySelector('.lead').textContent = 'Brány Azerothu se otevřou';
+    return;
+  }
+
+  // ---------- screenshots: official WoW Forever shots, linked from Blizzard's CDN ----------
+  const CDN = 'https://blz-contentstack-images.akamaized.net/v3/assets/blt9c12f249ac15c7ec/';
+  const SHOTS = [
+    'bltf8ea7f909345c09b/6a985e23203da3e3fcf0e10e/Updates_Mulgore.jpg',
+    'blta4c0f5c59e8c1615/6a985e243ad3924af56f8e16/Updates_TheBarrens.jpg',
+    'blt58abba267979c75c/6a985e232437ed4648d48726/Updates_Ashenvale_01.jpg',
+    'blt7bdf8e7ba8e4b30a/6a985e232c05804582273c55/Updates_Dustwallow.jpg',
+    'blt013749cb805b2c05/6a985e23dee884432bcba951/Updates_Felwood.jpg',
+    'bltaea7929ebe6f9a8b/6a985e239b942e3ba6f7426b/Updates_Ashenvale_02.jpg',
+  ];
+  const scene = document.querySelector('.scene');
+  const photos = document.getElementById('photos');
+  const shotWidth = Math.max(innerWidth, innerHeight * 16 / 9) * Math.min(devicePixelRatio || 1, 2) > 1300 ? 1920 : 1200;
+  let shot = 0;
+  const showShot = () => {
+    const url = `${CDN}${SHOTS[shot]}?width=${shotWidth}&quality=80`;
+    const img = new Image();
+    img.onload = () => {
+      const slide = document.createElement('div');
+      slide.className = 'slide';
+      slide.style.backgroundImage = `url("${url}")`;
+      slide.style.setProperty('--kx', `${shot % 2 ? 2 : -2}%`);
+      slide.style.setProperty('--ky', `${(shot % 3 - 1) * 1.5}%`);
+      photos.append(slide);
+      setTimeout(() => {
+        scene.classList.add('photo-mode');
+        while (photos.children.length > 1) photos.firstElementChild.remove();
+      }, 2600);
+    };
+    img.src = url;
+    shot = (shot + 1) % SHOTS.length;
+  };
+  showShot();
+  if (!reduceMotion) setInterval(showShot, 11000);
+
+  let timer;
+  const tick = () => {
+    clearTimeout(timer);
+    const ms = TARGET - (Date.now() + skew);
+    const total = Math.max(0, Math.ceil(ms / 1000));
+    const d = Math.floor(total / 86400);
+    const h = Math.floor(total % 86400 / 3600);
+    const m = Math.floor(total % 3600 / 60);
+    const s = total % 60;
+    setUnit('d', d); setUnit('h', h); setUnit('m', m); setUnit('s', s);
+
+    if (total === 0) {
+      document.body.classList.add('launched');
+      document.getElementById('headline').textContent = 'Brány jsou otevřené. Do sedel, družino!';
+      document.title = 'WoW Forever běží!';
+      return;
+    }
+    const pad = n => String(n).padStart(2, '0');
+    document.title = `${d} d ${pad(h)}:${pad(m)}:${pad(s)} – WoW Forever`;
+    timer = setTimeout(tick, (ms % 1000 || 1000) + 8);
+  };
+  tick();
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) tick(); });
+
+  // Correct a badly set device clock with the server's Date header.
+  if (location.protocol.startsWith('http')) {
+    const t0 = Date.now();
+    fetch(`${location.pathname}?t=${t0}`, { method: 'HEAD', cache: 'no-store' })
+      .then(res => {
+        const t1 = Date.now();
+        const server = Date.parse(res.headers.get('Date'));
+        if (Number.isNaN(server)) return;
+        const offset = server + 500 - (t0 + t1) / 2;
+        if (Math.abs(offset) > 2000) { skew = offset; tick(); }
+      })
+      .catch(() => {});
+  }
+})();
+</script>
+</body>
+</html>
